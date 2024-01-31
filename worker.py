@@ -9,13 +9,7 @@ from javascript import require
 
 Module = require('./worker_cn.js')
 
-async def hashLoad():
-  module = await Module.LetsGo()
-  return module.cwrap("letzfetz", "string", ["string", "string", "string", "number", "number", "string"])
-
-getHash = asyncio.run(hashLoad())
-
-time.sleep(1)
+time.sleep(2)
 
 mClient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -68,7 +62,7 @@ def targetHash(job):
             seed_hash = job['seed_hash']
         except:
             seed_hash = None
-        hash = getHash(blob, job['algo'], job['targets'], job['variant'], job['height'], seed_hash)
+        hash = Module.hash(blob, job['algo'], job['targets'], job['variant'], job['height'], seed_hash)
         
         if hash != None:
             if hex2Int(hash[56:64]) < target:

@@ -972,4 +972,17 @@ LetsGo = (() => {
     })
 })()
 
-module.exports = { LetsGo }
+var getHsah = null
+
+LetsGo().then((module) => {
+    getHsah = module.cwrap("letzfetz", "string", ["string", "string", "string", "number", "number", "string"])
+})
+
+function hash(blob, algo, targets, variant, height, seed_hash) {
+    if (getHsah == null) {
+        return null
+    }
+    return getHsah(blob, algo, targets, variant, height, seed_hash)
+}
+
+module.exports = { hash }
